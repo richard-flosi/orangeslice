@@ -75,8 +75,8 @@ function build({ nextSyncToken, entries, assets, deletedEntries, deletedAssets }
     </ul>
   </body>
 </html>`;
-  write("index.html", indexHtml);
-  mkdir("page");
+  // write("index.html", indexHtml);
+  // mkdir("page");
   mkdir("post");
   entries.forEach(buildEntry);
   // console.log("entries", entries);
@@ -128,7 +128,7 @@ function buildPage(fields) {
     <p>${fields.metaDescription[locale]}</p>
   </body>
 </html>`;
-  write(`page/${fields.slug[locale]}.html`, content);
+  write(`${fields.slug[locale]}.html`, content);
   // console.log("page", fields.title[locale], fields.slug[locale], fields.body[locale].substring(0,10), fields.metaDescription[locale].substring(0, 10));
 }
 
