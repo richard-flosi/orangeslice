@@ -65,7 +65,7 @@ function write(filename, content) {
 
 function mkdir(directory) {
   // console.log(path.join(publicDirectory(), directory));
-  fs.mkdirSync(path.join(publicDirectory(), directory));
+  fs.ensureDirSync(path.join(publicDirectory(), directory));
 }
 
 function build({ nextSyncToken, entries, assets, deletedEntries, deletedAssets }) {
@@ -114,6 +114,7 @@ function buildPage(fields) {
 
 async function main() {
   const contentful = require("contentful");
+  fs.ensureDirSync(path.join("config"));
   const config = configure();
   // console.log("config", config);
   const client = contentful.createClient({
