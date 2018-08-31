@@ -40,3 +40,9 @@ https://www.contentful.com/developers/docs/tutorials/general/automate-site-build
 # Netlify Forms
 https://app.netlify.com/sites/mowebev/forms
 Docs: https://www.netlify.com/docs/form-handling/
+
+// TODO Incremental Builds using nextSyncToken
+// Sync deltas don't include updates for related items.
+// i.e. changing a tag, didn't trigger any changes for the post that was using the tag.
+
+// TODO Remove Unpublised pages

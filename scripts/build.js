@@ -6,7 +6,7 @@ function configure() {
   let config = { spaceId: null, contentDeliveryAccessToken: null, contentPreviewAccessToken: null };
   
   // get configuration file
-  const configurationFile = "../config/contentful.js";  
+  const configurationFile = "../config/contentful.json";
   try {
     config = require(configurationFile);
   } catch (e) {
@@ -40,6 +40,17 @@ function configure() {
   return config;
 }
 
+function nextSyncToken() {
+  let nextSyncToken = null;
+  const nextSyncTokenFile = "../config/nextSyncToken.json";
+  try {
+    nextSyncToken = require(nextSyncTokenFile);
+  } catch (e) {
+    console.log(`No nextSyncToken file found at ${nextSyncTokenFile}`);
+  }
+  return nextSyncToken;
+}
+
 function publicDirectory() {
   return path.join(path.resolve(path.dirname(".")), "public");
 }
@@ -59,25 +70,7 @@ function mkdir(directory) {
 
 function build({ nextSyncToken, entries, assets, deletedEntries, deletedAssets }) {
   const locale = "en-US";
-  // console.log("nextSyncToken", nextSyncToken);
-  clear();
-  const indexHtml = `<html>
-  <head><title>hello world</title></head>
-  <body>
-    <h1>Hello World!</h1>
-    <p>Welcome to Mowebev.</p>
-    <h2><a href="/page/about.html">About</a></h2>
-    <ul>
-      <li><a href="/post/a-walk-in-the-park.html">A Walk in the Park</a></li>
-      <li><a href="/post/beach-day.html">Beach Day</a></li>
-      <li><a href="/post/puppies.html">Puppies</a></li>
-      <li><a href="/post/sailing-around-the-bay.html">Sailing Around the Bay</a></li>
-    </ul>
-  </body>
-</html>`;
-  // write("index.html", indexHtml);
-  // mkdir("page");
-  mkdir("post");
+  // console.log("nextSyncToken", nextSyncToken);  
   entries.forEach(buildEntry);
   // console.log("entries", entries);
   // console.log("entry", entries[0].fields);
@@ -94,23 +87,10 @@ function buildEntry({ sys, fields }) {
   const id = sys.contentType.sys.id;
   // console.log("buildEntry", id);
   switch (id) {
-    // case "tag":
-    //   return buildTag(fields);
     case "page":
       return buildPage(fields);
-    case "post":
-      return buildPost(fields);
-    // default:
-    //   console.log("ignoring contentType id:", id);
   }
 }
-
-// ignoring tags
-// function buildTag(fields) {
-//   const locale = "en-US";
-//   // console.log("buildTag", fields);
-//   console.log("tag", fields.title[locale], fields.slug[locale]);
-// }
 
 function buildPage(fields) {
   const marked = require("marked");
@@ -132,34 +112,6 @@ function buildPage(fields) {
   // console.log("page", fields.title[locale], fields.slug[locale], fields.body[locale].substring(0,10), fields.metaDescription[locale].substring(0, 10));
 }
 
-function buildPost(fields) {
-  const locale = "en-US";
-  // console.log("buildPost", Object.keys(fields));
-  const content = `<html>
-  <head>
-    <title>${fields.title[locale]}</title>
-  </head>
-  <body>
-    <a href="/">Home</a>
-    <h1>${fields.title[locale]}</h1>
-    <i>${fields.slug[locale]}</i>
-    <b>${fields.publishDate[locale]}</b>
-    <p>${fields.body[locale]}</p>
-    <p>${fields.tags[locale].map((tag) => tag.fields.title[locale]).join(", ")}</p>
-    <p>${fields.heroImage[locale].fields.title[locale]}</p>
-    <img 
-      src="${fields.heroImage[locale].fields.file[locale].url}" 
-      alt="${fields.heroImage[locale].fields.title[locale]}"
-    />
-  </body>
-</html>`;
-  write(`post/${fields.slug[locale]}.html`, content);
-  // console.log("post", fields.title[locale], fields.slug[locale], fields.publishDate[locale], fields.body[locale].substring(0, 10));
-  // console.log("    ", "tags", "[ ", fields.tags[locale].map((tag) => tag.fields.title[locale]).join(", "), " ]");
-  // console.log("    ", "heroImage", "title", fields.heroImage[locale].fields.title[locale]);
-  // console.log("    ", "heroImage", "url", fields.heroImage[locale].fields.file[locale].url.substring(0, 20));
-}
-
 async function main() {
   const contentful = require("contentful");
   const config = configure();
@@ -168,11 +120,29 @@ async function main() {
     space: config.spaceId,
     accessToken: config.contentDeliveryAccessToken,
   });
+
+  const syncToken = nextSyncToken();
+  let syncOptions = { initial: true };
+  if (syncToken) {
+    syncOptions = { nextSyncToken: syncToken.nextSyncToken };
+  } else {
+    // if we don't have a token,
+    // then clear the public directory
+    clear();
+  }
+
   // const locales = await client.getLocales();
   // console.log("locales", locales);
-  const delta = await client.sync({ initial: true });
-  // console.log("delta", delta);
+
+  const delta = await client.sync(syncOptions);
+  // console.log("delta", JSON.stringify(delta));
   // console.log("delta", Object.keys(delta));
+
+  fs.writeSync(
+    fs.openSync(path.join("config", "nextSyncToken.json"), "w"), 
+    JSON.stringify({ nextSyncToken: delta.nextSyncToken })
+  );
+
   build(delta);
 
   // const nextDelta = await client.sync({ nextSyncToken: delta.nextSyncToken });

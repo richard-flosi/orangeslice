@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "build": "node ./scripts/build.js",
+    "rebuild": "rm config/nextSyncToken.json && npm run build",
     "start": "serve --no-clipboard --config serve.json"
   }
 }
