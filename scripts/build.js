@@ -99,27 +99,37 @@ function buildPage(fields) {
   const content = `<html>
   <head>
     <title>${fields.title[locale]}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${fields.metaDescription[locale]}">
   </head>
-  <body>
+  <body style="margin:0;padding:0;background-color:black;font-family:helvetica,arial,sans-serif;">
+    <a href="/" style="text-decoration:none;">
+      <h1 style="margin:0;padding:10px;line-height:1.75em;background-color:black;color:white;text-align:center;">
+        Mowebev
+      </h1>
+    </a>
     <nav>
-      <h1><a href="/">Mowebev</a></h1>
-      <a href="/about.html">About</a> |
-      <a href="/services.html">Services</a> |
-      <a href="/clients.html">Clients</a> |
-      <a href="/contact.html">Contact</a>
+      <div style="padding:10px;link-height:1.5em;background-color:gray;color:ghostwhite;text-align:center;">
+        <a href="/about.html" style="text-decoration:none;color:white;">About</a> |
+        <a href="/services.html" style="text-decoration:none;color:white;">Services</a> |
+        <a href="/clients.html" style="text-decoration:none;color:white;">Clients</a> |
+        <a href="/contact.html" style="text-decoration:none;color:white;">Contact</a>
+      </div>
     </nav>
     <header>
-      <h2>${fields.title[locale]}</h2>
+      <h2 style="margin:0;padding:20px;line-height:1.25em;background-color:silver;color:black;">
+        ${fields.title[locale]}
+      </h2>
     </header>
-    <article>
-      <div>${marked(fields.body[locale])}</div>
-    </article>
+    <main>
+      <div style="padding:20px;line-height:1.25em;background-color:white;color:black;">
+        ${marked(fields.body[locale])}
+      </div>
+    </main>
     <footer>
-      <a href="/about.html">About</a> |
-      <a href="/services.html">Services</a> |
-      <a href="/clients.html">Clients</a> |
-      <a href="/contact.html">Contact</a>
+      <div style="padding:20px;line-height:1.75em;background-color:black;color:white;text-align:center;">
+        Modern Web Development &copy; Mowebev
+      </div>
     </footer>
   </body>
 </html>`;
