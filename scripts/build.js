@@ -99,13 +99,28 @@ function buildPage(fields) {
   const content = `<html>
   <head>
     <title>${fields.title[locale]}</title>
+    <meta name="description" content="${fields.metaDescription[locale]}">
   </head>
   <body>
-    <a href="/">Home</a>
-    <h1>${fields.title[locale]}</h1>
-    <i>${fields.slug[locale]}</i>
-    <p>${marked(fields.body[locale])}</p>
-    <p>${fields.metaDescription[locale]}</p>
+    <nav>
+      <h1><a href="/">Mowebev</a></h1>
+      <a href="/about.html">About</a> |
+      <a href="/services.html">Services</a> |
+      <a href="/clients.html">Clients</a> |
+      <a href="/contact.html">Contact</a>
+    </nav>
+    <header>
+      <h2>${fields.title[locale]}</h2>
+    </header>
+    <article>
+      <div>${marked(fields.body[locale])}</div>
+    </article>
+    <footer>
+      <a href="/about.html">About</a> |
+      <a href="/services.html">Services</a> |
+      <a href="/clients.html">Clients</a> |
+      <a href="/contact.html">Contact</a>
+    </footer>
   </body>
 </html>`;
   write(`${fields.slug[locale]}.html`, content);
