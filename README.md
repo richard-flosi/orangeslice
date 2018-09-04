@@ -46,3 +46,11 @@ Docs: https://www.netlify.com/docs/form-handling/
 // i.e. changing a tag, didn't trigger any changes for the post that was using the tag.
 
 // TODO Remove Unpublised pages
+
+// TODO save nextSyncToken on Netlify side for incremental builds
+
+// TODO Semantic Markup
+
+// TODO Aria Compliant
+
+// TODO Schema.org Test
