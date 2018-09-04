@@ -101,6 +101,20 @@ function buildPage(fields) {
     <title>${fields.title[locale]}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${fields.metaDescription[locale]}">
+    <style type="text/css">
+      a {
+        font-weight: 100;
+      }
+      a:link, a:visited {
+        color: black;
+      }
+      a:hover {
+        color: gray;
+      }
+      a:active {
+        color: silver;
+      }
+    </style>
   </head>
   <body style="margin:0;padding:0;background-color:black;font-family:helvetica,arial,sans-serif;">
     <a href="/" style="text-decoration:none;">
