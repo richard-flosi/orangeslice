@@ -118,12 +118,16 @@ function buildPage(fields) {
     </nav>
     <header>
       <h2 style="margin:0;padding:20px;line-height:1.25em;background-color:silver;color:black;">
-        ${fields.title[locale]}
+        <div style="max-width:600px;margin-left:auto;margin-right:auto;">
+          ${fields.title[locale]}
+        </div>
       </h2>
     </header>
     <main>
       <div style="padding:20px;line-height:1.25em;background-color:white;color:black;">
-        ${marked(fields.body[locale])}
+        <div style="max-width:600px;margin-left:auto;margin-right:auto;">
+          ${marked(fields.body[locale])}
+        </div>
       </div>
     </main>
     <footer>
