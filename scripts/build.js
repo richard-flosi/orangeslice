@@ -105,7 +105,7 @@ function buildPage(fields) {
   <body style="margin:0;padding:0;background-color:black;font-family:helvetica,arial,sans-serif;">
     <a href="/" style="text-decoration:none;">
       <h1 style="margin:0;padding:10px;line-height:1.75em;background-color:black;color:white;text-align:center;">
-        Mowebev
+        mowebev
       </h1>
     </a>
     <nav>
@@ -132,7 +132,7 @@ function buildPage(fields) {
     </main>
     <footer>
       <div style="padding:20px;line-height:1.75em;background-color:black;color:white;text-align:center;">
-        Modern Web Development &copy; Mowebev
+        Modern Web Development &copy; mowebev
       </div>
     </footer>
   </body>
