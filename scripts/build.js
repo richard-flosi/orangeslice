@@ -145,7 +145,7 @@ function buildPost({ fields }) {
 
 function buildComments(comments) {
   if (comments) {
-    return `<div><h3>Comments</h3><ol>${comments.map(buildComment)}</ol></div>`;
+    return `<div><h3>Comments</h3><ol>${comments.map(buildComment).join("")}</ol></div>`;
   }
   return "";
 }
