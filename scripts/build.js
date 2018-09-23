@@ -145,6 +145,7 @@ function buildLayout({ slug, title, metaDescription, body }) {
 }
 
 function buildPage({ fields }) {
+  console.log("buildPage", JSON.stringify(fields));
   console.log("buildPage", Object.keys(fields));
   buildLayout({
     slug: fields.slug[locale],
@@ -155,6 +156,7 @@ function buildPage({ fields }) {
 }
 
 function buildPost({ fields }) {
+  console.log("buildPost", JSON.stringify(fields));
   console.log("buildPost", Object.keys(fields));
   const body = `<div>
   <div>${marked(fields.description[locale])}</div>
