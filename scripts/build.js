@@ -158,7 +158,7 @@ function buildPost(fields) {
   <div>${marked(fields.description[locale])}</div>
   <div>
     <h3>Comments</h3>
-    ${fields.comments.map(buildComment)}
+    
   </div>
 </div>`;
   buildLayout({
