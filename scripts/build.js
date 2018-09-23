@@ -135,7 +135,9 @@ function buildPost({ fields }) {
   <div>${marked(fields.description)}</div>
   <div>
     <h3>Comments</h3>
-    
+    <ol>
+      ${fields.comments.map(buildComment)}
+    </ol>
   </div>
 </div>`;
   buildLayout({
@@ -146,11 +148,9 @@ function buildPost({ fields }) {
   });
 }
 
-function buildComment(fields) {
+function buildComment({ fields }) {
   console.log("buildComment", Object.keys(fields));
-  return `<div>
-  TODO: the comment
-</div>`;
+  return `<li>${fields.comment}</li>`;
 }
 
 function buildBlog({ items }) {
