@@ -148,10 +148,10 @@ function buildPage({ fields }) {
   console.log("buildPage", JSON.stringify(fields));
   console.log("buildPage", Object.keys(fields));
   buildLayout({
-    slug: fields.slug[locale],
-    title: fields.title[locale],
-    metaDescription: fields.metaDescription[locale],
-    body: marked(fields.body[locale]),
+    slug: fields.slug,
+    title: fields.title,
+    metaDescription: fields.metaDescription,
+    body: marked(fields.body),
   });
 }
 
@@ -159,16 +159,16 @@ function buildPost({ fields }) {
   console.log("buildPost", JSON.stringify(fields));
   console.log("buildPost", Object.keys(fields));
   const body = `<div>
-  <div>${marked(fields.description[locale])}</div>
+  <div>${marked(fields.description)}</div>
   <div>
     <h3>Comments</h3>
     
   </div>
 </div>`;
   buildLayout({
-    slug: `blog/${fields.slug[locale]}`,
-    title: fields.title[locale],
-    metaDescription: fields.metaDescription[locale],
+    slug: `blog/${fields.slug}`,
+    title: fields.title,
+    metaDescription: fields.metaDescription,
     body: body,
   });
 }
