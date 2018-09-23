@@ -155,7 +155,7 @@ function buildPage(fields) {
 function buildPost(fields) {
   console.log("buildPost", Object.keys(fields));
   const body = `<div>
-  <div>${marked(fields.body[locale])}</div>
+  <div>${marked(fields.description[locale])}</div>
   <div>
     <h3>Comments</h3>
     ${fields.comments.map(buildComment)}
