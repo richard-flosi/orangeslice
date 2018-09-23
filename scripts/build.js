@@ -58,6 +58,7 @@ function mkdir(directory) {
   fs.ensureDirSync(path.join(publicDirectory(), directory));
 }
 
+/*
 function build({ entries, assets, deletedEntries, deletedAssets }) {
   const locale = "en-US";
   entries.forEach(buildEntry);
@@ -82,6 +83,7 @@ function buildEntry({ sys, fields }) {
       return buildPost(fields);
   }
 }
+*/
 
 function buildLayout({ slug, title, metaDescription, body }) {
   const content = `<html>
@@ -143,7 +145,7 @@ function buildLayout({ slug, title, metaDescription, body }) {
 }
 
 function buildPage(fields) {
-  // console.log("buildPage", Object.keys(fields));
+  console.log("buildPage", Object.keys(fields));
   buildLayout({
     slug: fields.slug[locale],
     title: fields.title[locale],
@@ -195,15 +197,19 @@ async function main() {
   // console.log("delta", JSON.stringify(delta));
   // console.log("delta", Object.keys(delta));
   
-  const entries = await client.getEntries();
-  console.log("entries", JSON.stringify(entries));
+  // const entries = await client.getEntries();
+  // console.log("entries", JSON.stringify(entries));
 
+  const pages = await client.getEntries({ content_type: "page" });
+  console.log("pages", JSON.stringify(pages));
+  
   const posts = await client.getEntries({ content_type: "post" });
   console.log("posts", JSON.stringify(posts));
   
   clear(); // clear the public directory
   mkdir("blog");
-  build({ entries: entries.items });
+  pages.items.map(buildPage);
+  posts.items.map(buildPost);
 
   console.log("OK");
   return true;
