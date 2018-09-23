@@ -106,7 +106,7 @@ function buildPage(fields) {
         font-weight: 100;
       }
       a:link, a:visited {
-        color: black;
+        color: orange;
       }
       a:hover {
         color: gray;
@@ -116,10 +116,10 @@ function buildPage(fields) {
       }
     </style>
   </head>
-  <body style="margin:0;padding:0;background-color:black;font-family:helvetica,arial,sans-serif;">
+  <body style="margin:0;padding:0;background-color:orange;font-family:helvetica,arial,sans-serif;">
     <a href="/" style="text-decoration:none;">
-      <h1 style="margin:0;padding:10px;line-height:1.75em;background-color:black;color:white;text-align:center;">
-        mowebev
+      <h1 style="margin:0;padding:10px;line-height:1.75em;background-color:orange;color:white;text-align:center;">
+        orangeslice
       </h1>
     </a>
     <nav>
@@ -131,22 +131,22 @@ function buildPage(fields) {
       </div>
     </nav>
     <header>
-      <h2 style="margin:0;padding:20px;line-height:1.25em;background-color:silver;color:black;">
+      <h2 style="margin:0;padding:20px;line-height:1.25em;background-color:silver;color:orange;">
         <div style="max-width:600px;margin-left:auto;margin-right:auto;">
           ${fields.title[locale]}
         </div>
       </h2>
     </header>
     <main>
-      <div style="padding:20px;line-height:1.25em;background-color:white;color:black;">
+      <div style="padding:20px;line-height:1.25em;background-color:white;color:orange;">
         <div style="max-width:600px;margin-left:auto;margin-right:auto;">
           ${marked(fields.body[locale])}
         </div>
       </div>
     </main>
     <footer>
-      <div style="padding:20px;line-height:1.75em;background-color:black;color:white;text-align:center;">
-        Modern Web Development &copy; mowebev
+      <div style="padding:20px;line-height:1.75em;background-color:orange;color:white;text-align:center;">
+        Orange Slice &copy; orangeslice
       </div>
     </footer>
   </body>
