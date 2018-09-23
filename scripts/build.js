@@ -157,7 +157,7 @@ function buildBlog({ items }) {
   console.log("buildBlog", JSON.stringify(items));
   console.log("buildBlog", Object.keys(items[0]));
   const body = `<ol>
-    items.map(({ fields }) => `<li><a href="`/blog/${fields.slug}.html`">${fields.title}</a></li>`)
+    items.map(({ fields }) => `<li><a href="/blog/${fields.slug}.html">${fields.title}</a></li>`)
 </ol>`;
   buildLayout({
     slug: "blog/index.html",
