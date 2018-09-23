@@ -196,6 +196,7 @@ async function main() {
   // console.log("delta", Object.keys(delta));
 
   clear(); // clear the public directory
+  mkdir("blog");
   build(delta);
 
   console.log("OK");
