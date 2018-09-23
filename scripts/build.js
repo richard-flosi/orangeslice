@@ -58,33 +58,6 @@ function mkdir(directory) {
   fs.ensureDirSync(path.join(publicDirectory(), directory));
 }
 
-/*
-function build({ entries, assets, deletedEntries, deletedAssets }) {
-  const locale = "en-US";
-  entries.forEach(buildEntry);
-  // console.log("entries", entries);
-  // console.log("entry", entries[0].fields);
-  // console.log("entry", entries[0].sys.contentType.sys.id);
-  // console.log("this", this);
-  // console.log("parsedEntries", this.parseEntries(entries).items);
-  // console.log("assets", assets);
-  // console.log("asset", JSON.stringify(assets[0]));
-  // console.log("deletedEntries", deletedEntries);
-  // console.log("deletedAssets", deletedAssets);
-}
-
-function buildEntry({ sys, fields }) {
-  const id = sys.contentType.sys.id;
-  // console.log("buildEntry", id);
-  switch (id) {
-    case "page":
-      return buildPage(fields);
-    case "post":
-      return buildPost(fields);
-  }
-}
-*/
-
 function buildLayout({ slug, title, metaDescription, body }) {
   const content = `<html>
   <head>
@@ -145,8 +118,8 @@ function buildLayout({ slug, title, metaDescription, body }) {
 }
 
 function buildPage({ fields }) {
-  console.log("buildPage", JSON.stringify(fields));
-  console.log("buildPage", Object.keys(fields));
+  // console.log("buildPage", JSON.stringify(fields));
+  // console.log("buildPage", Object.keys(fields));
   buildLayout({
     slug: fields.slug,
     title: fields.title,
@@ -180,6 +153,20 @@ function buildComment(fields) {
 </div>`;
 }
 
+function buildBlog({ items }) {
+  console.log("buildBlog", JSON.stringify(items));
+  console.log("buildBlog", Object.keys(items[0]));
+  const body = `
+  TODO: build blog index
+`;
+  buildLayout({
+    slug: "blog/index.html",
+    title: "OrangeSlice Blog",
+    metaDescription: "A Blog",
+    body: body,
+  });
+}
+
 async function main() {
   const contentful = require("contentful");
   fs.ensureDirSync(path.join("config"));
@@ -190,20 +177,8 @@ async function main() {
     accessToken: config.contentDeliveryAccessToken,
   });
 
-  // let syncOptions = { initial: true };
-
-  // const locales = await client.getLocales();
-  // console.log("locales", locales);
-
-  // const delta = await client.sync(syncOptions);
-  // console.log("delta", JSON.stringify(delta));
-  // console.log("delta", Object.keys(delta));
-  
-  // const entries = await client.getEntries();
-  // console.log("entries", JSON.stringify(entries));
-
   const pages = await client.getEntries({ content_type: "page" });
-  console.log("pages", JSON.stringify(pages));
+  // console.log("pages", JSON.stringify(pages));
   
   const posts = await client.getEntries({ content_type: "post" });
   console.log("posts", JSON.stringify(posts));
@@ -212,6 +187,7 @@ async function main() {
   mkdir("blog");
   pages.items.map(buildPage);
   posts.items.map(buildPost);
+  buildBlog(posts);
 
   console.log("OK");
   return true;
