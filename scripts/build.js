@@ -129,8 +129,8 @@ function buildPage({ fields }) {
 }
 
 function buildPost({ fields }) {
-  console.log("buildPost", JSON.stringify(fields));
-  console.log("buildPost", Object.keys(fields));
+  // console.log("buildPost", JSON.stringify(fields));
+  // console.log("buildPost", Object.keys(fields));
   const body = `<div>
   <div>${marked(fields.description)}</div>
   ${buildComments(fields.comments)}
@@ -151,7 +151,7 @@ function buildComments(comments) {
 }
 
 function buildComment({ fields }) {
-  console.log("buildComment", Object.keys(fields));
+  // console.log("buildComment", Object.keys(fields));
   return `<li>${fields.comment}</li>`;
 }
 
