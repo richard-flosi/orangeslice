@@ -154,8 +154,8 @@ function buildComment(fields) {
 }
 
 function buildBlog({ items }) {
-  console.log("buildBlog", JSON.stringify(items));
-  console.log("buildBlog", Object.keys(items[0]));
+  // console.log("buildBlog", JSON.stringify(items));
+  // console.log("buildBlog", Object.keys(items[0]));
   const body = `<ol>
     ${items.map(
       ({ fields }) => `<li><a href="/blog/${fields.slug}.html">${fields.title}</a></li>`
@@ -183,7 +183,7 @@ async function main() {
   // console.log("pages", JSON.stringify(pages));
   
   const posts = await client.getEntries({ content_type: "post" });
-  console.log("posts", JSON.stringify(posts));
+  // console.log("posts", JSON.stringify(posts));
   
   clear(); // clear the public directory
   mkdir("blog");
