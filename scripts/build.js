@@ -40,17 +40,6 @@ function configure() {
   return config;
 }
 
-function nextSyncToken() {
-  let nextSyncToken = null;
-  const nextSyncTokenFile = "../config/nextSyncToken.json";
-  try {
-    nextSyncToken = require(nextSyncTokenFile);
-  } catch (e) {
-    console.log(`No nextSyncToken file found at ${nextSyncTokenFile}`);
-  }
-  return nextSyncToken;
-}
-
 function publicDirectory() {
   return path.join(path.resolve(path.dirname(".")), "public");
 }
@@ -64,13 +53,11 @@ function write(filename, content) {
 }
 
 function mkdir(directory) {
-  // console.log(path.join(publicDirectory(), directory));
   fs.ensureDirSync(path.join(publicDirectory(), directory));
 }
 
-function build({ nextSyncToken, entries, assets, deletedEntries, deletedAssets }) {
+function build({ entries, assets, deletedEntries, deletedAssets }) {
   const locale = "en-US";
-  // console.log("nextSyncToken", nextSyncToken);  
   entries.forEach(buildEntry);
   // console.log("entries", entries);
   // console.log("entry", entries[0].fields);
@@ -165,15 +152,7 @@ async function main() {
     accessToken: config.contentDeliveryAccessToken,
   });
 
-  const syncToken = nextSyncToken();
   let syncOptions = { initial: true };
-  if (syncToken) {
-    syncOptions = { nextSyncToken: syncToken.nextSyncToken };
-  } else {
-    // if we don't have a token,
-    // then clear the public directory
-    clear();
-  }
 
   // const locales = await client.getLocales();
   // console.log("locales", locales);
@@ -182,21 +161,11 @@ async function main() {
   // console.log("delta", JSON.stringify(delta));
   // console.log("delta", Object.keys(delta));
 
-  fs.writeSync(
-    fs.openSync(path.join("config", "nextSyncToken.json"), "w"), 
-    JSON.stringify({ nextSyncToken: delta.nextSyncToken })
-  );
-
+  clear(); // clear the public directory
   build(delta);
 
-  // const nextDelta = await client.sync({ nextSyncToken: delta.nextSyncToken });
-  // console.log("nextDelta", nextDelta);
-  // console.log("Synced: ", delta.nextSyncToken === nextDelta.nextSyncToken);
-  console.log("done.");
+  console.log("OK");
   return true;
 }
 
 main();
-
-// TODO, import api keys from environment variable or configuration file
-// TODO, does the entry for a post get updated when a related tag is updated or deleted?

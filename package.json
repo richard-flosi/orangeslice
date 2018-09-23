@@ -1,8 +1,8 @@
 {
-  "name": "mowebev",
-  "description": "Mowebev static website with Contentful and Netlify",
+  "name": "orangeslice",
+  "description": "orangeslice static website with Contentful and Netlify",
   "version": "1.0.0",
-  "repository": "https://github.com/richard-flosi/mowebev",
+  "repository": "https://github.com/richard-flosi/orangeslice",
   "author": "Richard Flosi <richard.flosi@gmail.com>",
   "dependencies": {
     "contentful": "7.0.3",
@@ -10,16 +10,15 @@
     "marked": "0.5.0"
   },
   "devDependencies": {
-    "serve": "10.0.0"
+    "serve": "10.0.1"
   },
   "keywords": [
-    "mowebev",
+    "orangeslice",
     "contentful",
     "netlify"
   ],
   "scripts": {
     "build": "node ./scripts/build.js",
-    "rebuild": "rm config/nextSyncToken.json && npm run build",
     "start": "serve --no-clipboard --config serve.json"
   }
 }
