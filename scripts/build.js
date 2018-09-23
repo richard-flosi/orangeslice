@@ -1,5 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
+const marked = require("marked");
+const locale = "en-US";
 
 function configure() {
   // default configuration
@@ -76,18 +78,17 @@ function buildEntry({ sys, fields }) {
   switch (id) {
     case "page":
       return buildPage(fields);
+    case "post":
+      return buildPost(fields);
   }
 }
 
-function buildPage(fields) {
-  const marked = require("marked");
-  const locale = "en-US";
-  // console.log("buildPage", Object.keys(fields));
+function buildLayout({ slug, title, metaDescription, body }) {
   const content = `<html>
   <head>
-    <title>${fields.title[locale]}</title>
+    <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="${fields.metaDescription[locale]}">
+    <meta name="description" content="${metaDescription}">
     <style type="text/css">
       a {
         font-weight: 100;
@@ -120,14 +121,14 @@ function buildPage(fields) {
     <header>
       <h2 style="margin:0;padding:20px;line-height:1.25em;background-color:gold;color:darkorange;">
         <div style="max-width:600px;margin-left:auto;margin-right:auto;">
-          ${fields.title[locale]}
+          ${title}
         </div>
       </h2>
     </header>
     <main>
       <div style="padding:20px;line-height:1.25em;background-color:white;color:darkorange;">
         <div style="max-width:600px;margin-left:auto;margin-right:auto;">
-          ${marked(fields.body[locale])}
+          ${body}
         </div>
       </div>
     </main>
@@ -138,8 +139,41 @@ function buildPage(fields) {
     </footer>
   </body>
 </html>`;
-  write(`${fields.slug[locale]}.html`, content);
-  // console.log("page", fields.title[locale], fields.slug[locale], fields.body[locale].substring(0,10), fields.metaDescription[locale].substring(0, 10));
+  write(`${slug}.html`, content);
+}
+
+function buildPage(fields) {
+  // console.log("buildPage", Object.keys(fields));
+  buildLayout({
+    slug: fields.slug[locale],
+    title: fields.title[locale],
+    metaDescription: fields.metaDescription[locale],
+    body: marked(fields.body[locale]),
+  });
+}
+
+function buildPost(fields) {
+  console.log("buildPost", Object.keys(fields));
+  const body = `<div>
+  <div>${marked(fields.body[locale])}</div>
+  <div>
+    <h3>Comments</h3>
+    ${fields.comments.map(buildComment)}
+  </div>
+</div>`;
+  buildLayout({
+    slug: `blog/${fields.slug[locale]}`,
+    title: fields.title[locale],
+    metaDescription: fields.metaDescription[locale],
+    body: body,
+  });
+}
+
+function buildComment(fields) {
+  console.log("buildComment", Object.keys(fields));
+  return `<div>
+  TODO: the comment
+</div>`;
 }
 
 async function main() {
