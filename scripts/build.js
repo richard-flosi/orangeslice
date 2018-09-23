@@ -89,7 +89,7 @@ function buildLayout({ slug, title, metaDescription, body }) {
       <div style="padding:10px;link-height:1.5em;background-color:orange;color:ghostwhite;text-align:center;">
         <a href="/about.html" style="text-decoration:none;color:white;">About</a> |
         <a href="/services.html" style="text-decoration:none;color:white;">Services</a> |
-        <a href="/clients.html" style="text-decoration:none;color:white;">Clients</a> |
+        <a href="/blog/index.html" style="text-decoration:none;color:white;">Blog</a> |
         <a href="/contact.html" style="text-decoration:none;color:white;">Contact</a>
       </div>
     </nav>
@@ -158,10 +158,8 @@ function buildBlog({ items }) {
   console.log("buildBlog", Object.keys(items[0]));
   const body = `<ol>
     ${items.map(
-      ({ fields }) => {
-        return `<li><a href="/blog/${fields.slug}.html">${fields.title}</a></li>`;
-      }
-    )}
+      ({ fields }) => `<li><a href="/blog/${fields.slug}.html">${fields.title}</a></li>`
+    ).join("")}
 </ol>`;
   buildLayout({
     slug: "blog/index.html",
