@@ -133,12 +133,7 @@ function buildPost({ fields }) {
   console.log("buildPost", Object.keys(fields));
   const body = `<div>
   <div>${marked(fields.description)}</div>
-  <div>
-    <h3>Comments</h3>
-    <ol>
-      ${fields.comments.map(buildComment)}
-    </ol>
-  </div>
+  ${buildComments(fields.comments)}
 </div>`;
   buildLayout({
     slug: `blog/${fields.slug}`,
@@ -146,6 +141,13 @@ function buildPost({ fields }) {
     metaDescription: fields.metaDescription,
     body: body,
   });
+}
+
+function buildComments(comments) {
+  if (comments) {
+    return `<div><h3>Comments</h3><ol>${fields.comments.map(buildComment)}</ol></div>`;
+  }
+  return "";
 }
 
 function buildComment({ fields }) {
