@@ -186,18 +186,24 @@ async function main() {
     accessToken: config.contentDeliveryAccessToken,
   });
 
-  let syncOptions = { initial: true };
+  // let syncOptions = { initial: true };
 
   // const locales = await client.getLocales();
   // console.log("locales", locales);
 
-  const delta = await client.sync(syncOptions);
+  // const delta = await client.sync(syncOptions);
   // console.log("delta", JSON.stringify(delta));
   // console.log("delta", Object.keys(delta));
+  
+  const entries = await client.getEntries();
+  console.log("entries", JSON.stringify(entries));
 
+  const posts = await client.getEntries({ content_type: "post" });
+  console.log("posts", JSON.stringify(posts));
+  
   clear(); // clear the public directory
   mkdir("blog");
-  build(delta);
+  build(entries);
 
   console.log("OK");
   return true;
