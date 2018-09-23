@@ -203,7 +203,7 @@ async function main() {
   
   clear(); // clear the public directory
   mkdir("blog");
-  build(entries);
+  build({ entries: entries.items });
 
   console.log("OK");
   return true;
