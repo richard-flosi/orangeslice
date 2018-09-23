@@ -106,24 +106,24 @@ function buildPage(fields) {
         font-weight: 100;
       }
       a:link, a:visited {
-        color: orange;
+        color: darkorange;
       }
       a:hover {
-        color: gray;
+        color: orange;
       }
       a:active {
-        color: silver;
+        color: gold;
       }
     </style>
   </head>
-  <body style="margin:0;padding:0;background-color:orange;font-family:helvetica,arial,sans-serif;">
+  <body style="margin:0;padding:0;background-color:darkorange;font-family:helvetica,arial,sans-serif;">
     <a href="/" style="text-decoration:none;">
-      <h1 style="margin:0;padding:10px;line-height:1.75em;background-color:orange;color:white;text-align:center;">
+      <h1 style="margin:0;padding:10px;line-height:1.75em;background-color:darkorange;color:white;text-align:center;">
         orangeslice
       </h1>
     </a>
     <nav>
-      <div style="padding:10px;link-height:1.5em;background-color:gray;color:ghostwhite;text-align:center;">
+      <div style="padding:10px;link-height:1.5em;background-color:orange;color:ghostwhite;text-align:center;">
         <a href="/about.html" style="text-decoration:none;color:white;">About</a> |
         <a href="/services.html" style="text-decoration:none;color:white;">Services</a> |
         <a href="/clients.html" style="text-decoration:none;color:white;">Clients</a> |
@@ -131,21 +131,21 @@ function buildPage(fields) {
       </div>
     </nav>
     <header>
-      <h2 style="margin:0;padding:20px;line-height:1.25em;background-color:silver;color:orange;">
+      <h2 style="margin:0;padding:20px;line-height:1.25em;background-color:gold;color:darkorange;">
         <div style="max-width:600px;margin-left:auto;margin-right:auto;">
           ${fields.title[locale]}
         </div>
       </h2>
     </header>
     <main>
-      <div style="padding:20px;line-height:1.25em;background-color:white;color:orange;">
+      <div style="padding:20px;line-height:1.25em;background-color:white;color:darkorange;">
         <div style="max-width:600px;margin-left:auto;margin-right:auto;">
           ${marked(fields.body[locale])}
         </div>
       </div>
     </main>
     <footer>
-      <div style="padding:20px;line-height:1.75em;background-color:orange;color:white;text-align:center;">
+      <div style="padding:20px;line-height:1.75em;background-color:darkorange;color:white;text-align:center;">
         Orange Slice &copy; orangeslice
       </div>
     </footer>
