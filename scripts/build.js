@@ -78,6 +78,7 @@ function buildLayout({ slug, title, metaDescription, body }) {
         color: gold;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/contentful-management@5.3.2/dist/contentful-management.browser.min.js"></script>
   </head>
   <body style="margin:0;padding:0;background-color:darkorange;font-family:helvetica,arial,sans-serif;">
     <a href="/" style="text-decoration:none;">
@@ -128,12 +129,15 @@ function buildPage({ fields }) {
   });
 }
 
-function buildPost({ fields }) {
+function buildPost({ sys, fields }) {
   // console.log("buildPost", JSON.stringify(fields));
   // console.log("buildPost", Object.keys(fields));
+  // console.log("buildPost", JSON.stringify(sys));
+  // console.log("buildPost", Object.keys(sys));
   const body = `<div>
   <div>${marked(fields.description)}</div>
   ${buildComments(fields.comments)}
+  ${addComment({ spaceId: sys.space.sys.id, postId: sys.id })}
 </div>`;
   buildLayout({
     slug: `blog/${fields.slug}`,
@@ -145,7 +149,12 @@ function buildPost({ fields }) {
 
 function buildComments(comments) {
   if (comments) {
-    return `<div><h3>Comments</h3><ol>${comments.map(buildComment).join("")}</ol></div>`;
+    return `<div>
+  <hr style="height:0.25em;background-color:gold;border:none;" />
+  <h3>Comments</h3>
+  <ol>${comments.map(buildComment).join("")}</ol>
+  <hr style="height:0.25em;background-color:orange;border:none;" />
+</div>`;
   }
   return "";
 }
@@ -153,6 +162,60 @@ function buildComments(comments) {
 function buildComment({ fields }) {
   // console.log("buildComment", Object.keys(fields));
   return `<li>${fields.comment}</li>`;
+}
+
+function addComment({ spaceId, postId }) {
+  // console.log("addComment", spaceId, postId);
+  return `
+  <form onsubmit="addComment(event)">
+    <label>
+      <h4>Add Comment</h4>
+      <textarea name="comment" rows="3" style="width:100%;border:1px solid darkorange;"></textarea>
+    </label>
+    <br /><br />
+    <button type="submit" style="line-height:2em;width:100%;padding:10px;background-color:gold;color:orange;font-weight:bold;font-size:1.25em;">
+      Submit
+    </button>
+  </form>
+  <script type="text/javascript">
+    async function addComment(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const comment = formData.get("comment");
+      // console.log("addComment", event, formData, comment);
+      const postId = "${postId}";
+      const client = contentfulManagement.createClient({
+        accessToken: "CFPAT-b10c43cb0eca8d4c7f7fa92e8115119f6001abe028826b6fa859a907ebd31bba"
+      });
+      // console.log("client", client);
+      const space = await client.getSpace("${spaceId}");
+      // console.log("space", space);
+      const environment = await space.getEnvironment("master");
+      // console.log("environment", environment);
+      const commentEntry = await environment.createEntry(
+        "comment", 
+        { fields: { comment: { "en-US": comment } } }
+      );
+      await commentEntry.publish();
+      // console.log("commentEntry", commentEntry);
+      const postEntry = await environment.getEntry(postId);
+      // console.log("postEntry", postEntry);
+      // console.log("postEntry.fields.title", postEntry.fields.title);
+      // console.log("postEntry.fields.comments", postEntry.fields.comments);
+      // console.log("postEntry.fields.comments['en-US']", postEntry.fields.comments['en-US']);
+      postEntry.fields.comments['en-US'].push({
+        sys: {
+          type: "Link",
+          linkType: "Entry",
+          id: commentEntry.sys.id
+        }
+      });
+      const updatedPostEntry = await postEntry.update();
+      // console.log("updatedPostEntry", updatedPostEntry);
+      await updatedPostEntry.publish();
+    }
+  </script>
+`;
 }
 
 function buildBlog({ items }) {
@@ -164,7 +227,7 @@ function buildBlog({ items }) {
     ).join("")}
 </ol>`;
   buildLayout({
-    slug: "blog/index.html",
+    slug: "blog/index",
     title: "OrangeSlice Blog",
     metaDescription: "A Blog",
     body: body,
